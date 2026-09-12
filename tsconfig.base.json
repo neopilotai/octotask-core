@@ -2,9 +2,7 @@
     "compilerOptions": {
         "target": "ES2020",
         "module": "ESNext",
-        "lib": [
-            "ES2020"
-        ],
+        "lib": ["ES2020"],
         "declaration": true,
         "strict": true,
         "esModuleInterop": true,
@@ -15,16 +13,16 @@
         "rootDir": ".",
         "baseUrl": ".",
         "paths": {
-            "@octotask/*": [
-                "./*"
-            ]
+            "@octotask/*": ["./*", "./packages/*"]
         }
     },
     "include": [
         "hyperdeploy/src",
-        "cdn",
-        "resolver",
-        "registry-sync",
+        "cdn/src",
+        "resolver/src",
+        "registry-sync/src",
+        "sdk/src",
+        "packages",
         ".github"
     ],
     "exclude": [
@@ -32,6 +30,8 @@
         "dist",
         "build",
         "docs",
-        "sdk"
+        "sdk/bundles",
+        "sdk/temp",
+        "packages/*/node_modules"
     ]
 }

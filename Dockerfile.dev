@@ -1,4 +1,5 @@
 # Development Dockerfile with hot-reload support
+# Uses pnpm workspaces for dependency management
 
 FROM node:20-alpine
 
@@ -7,19 +8,20 @@ WORKDIR /app
 # Install development tools
 RUN apk add --no-cache git curl bash
 
-# Copy package files
-COPY package*.json ./
-COPY hyperdeploy/package*.json ./hyperdeploy/
-COPY cdn/package*.json ./cdn/
-COPY resolver/package*.json ./resolver/
-COPY registry-sync/package*.json ./registry-sync/
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install all dependencies
-RUN npm ci --prefer-offline && \
-    cd hyperdeploy && npm ci --prefer-offline && cd .. && \
-    cd cdn && npm ci --prefer-offline && cd .. && \
-    cd resolver && npm ci --prefer-offline && cd .. && \
-    cd registry-sync && npm ci --prefer-offline && cd ..
+# Copy package files
+COPY package.json pnpm-workspace.yaml tsconfig.base.json ./
+COPY pnpm-lock.yaml ./
+COPY sdk/package.json ./sdk/
+COPY hyperdeploy/package.json ./hyperdeploy/
+COPY cdn/package.json ./cdn/
+COPY resolver/package.json ./resolver/
+COPY registry-sync/package.json ./registry-sync/
+
+# Install all dependencies via pnpm workspaces
+RUN pnpm install --frozen-lockfile
 
 # Copy source
 COPY . .
@@ -28,4 +30,4 @@ EXPOSE 3000 8080 6379
 
 ENV NODE_ENV=development
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]

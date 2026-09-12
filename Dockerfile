@@ -1,47 +1,51 @@
 # Multi-stage Dockerfile for OctoTask Core packages
+# Uses pnpm workspaces for dependency management
 
 # Stage 1: Builder
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY hyperdeploy/package*.json ./hyperdeploy/
-COPY cdn/package*.json ./cdn/
-COPY resolver/package*.json ./resolver/
-COPY registry-sync/package*.json ./registry-sync/
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install dependencies
-RUN npm install --prefer-offline --no-audit && \
-    cd hyperdeploy && npm install --prefer-offline --no-audit && cd .. && \
-    cd cdn && npm install --prefer-offline --no-audit && cd .. && \
-    cd resolver && npm install --prefer-offline --no-audit && cd .. && \
-    cd registry-sync && npm install --prefer-offline --no-audit && cd ..
+# Copy package files
+COPY package.json pnpm-workspace.yaml tsconfig.base.json ./
+COPY pnpm-lock.yaml ./
+COPY sdk/package.json ./sdk/
+COPY hyperdeploy/package.json ./hyperdeploy/
+COPY cdn/package.json ./cdn/
+COPY resolver/package.json ./resolver/
+COPY registry-sync/package.json ./registry-sync/
+
+# Install dependencies via pnpm workspaces
+RUN pnpm install --frozen-lockfile
 
 # Copy source files
 COPY . .
 
 # Build packages
-RUN cd hyperdeploy && npm run build && cd .. && \
-    cd cdn && npm run build 2>/dev/null || true && cd .. && \
-    cd resolver && npm run build 2>/dev/null || true && cd .. && \
-    cd registry-sync && npm run build 2>/dev/null || true && cd ..
+RUN pnpm turbo run build
 
 # Stage 2: Runtime - Registry Sync
 FROM node:20-alpine AS registry-sync
 
 WORKDIR /app
 
-COPY --from=builder /app/registry-sync /app
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY --from=builder /app /app
+
+COPY registry-sync/package.json ./registry-sync/
+COPY pnpm-lock.yaml ./
 
 # Install only production dependencies
-RUN npm install --only=production --prefer-offline --no-audit
+RUN pnpm install --frozen-lockfile --prod --filter=@octotask/registry-sync
 
 EXPOSE 6379
 ENV REDIS_URL=redis://redis:6379
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["pnpm"]
 CMD ["registry-sync"]
 
 # Stage 3: Runtime - Hyperdeploy
@@ -49,7 +53,9 @@ FROM node:20-alpine AS hyperdeploy
 
 WORKDIR /app
 
-COPY --from=builder /app/hyperdeploy /app
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY --from=builder /app/hyperdeploy /app/hyperdeploy
 
 ENV NODE_ENV=production
 
@@ -63,15 +69,24 @@ FROM node:20-alpine AS development
 
 WORKDIR /app
 
-COPY . .
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy all package files
+COPY package.json pnpm-workspace.yaml tsconfig.base.json ./
+COPY pnpm-lock.yaml ./
+COPY sdk/package.json ./sdk/
+COPY hyperdeploy/package.json ./hyperdeploy/
+COPY cdn/package.json ./cdn/
+COPY resolver/package.json ./resolver/
+COPY registry-sync/package.json ./registry-sync/
 
 # Install all dependencies
-RUN npm install --prefer-offline && \
-    cd hyperdeploy && npm install --prefer-offline && cd .. && \
-    cd cdn && npm install --prefer-offline && cd .. && \
-    cd resolver && npm install --prefer-offline && cd .. && \
-    cd registry-sync && npm install --prefer-offline && cd ..
+RUN pnpm install --frozen-lockfile
+
+COPY . .
 
 EXPOSE 3000 8080
 
-CMD ["npm", "run", "dev"]
+ENV NODE_ENV=development
+
+CMD ["pnpm", "run", "dev"]

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["tsconfig.base.json"],
+  "globalEnv": ["NODE_ENV", "REDIS_URL", "CDN_BASE_URL", "NPM_REGISTRY_URL"],
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**", "bundles/**", "types/**", "temp/**"],
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "tsconfig*.json", "vite.config.ts"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "test/**", "jest.config.json", "tsconfig*.json"],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "test/**", ".eslintrc.json", "tsconfig*.json"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

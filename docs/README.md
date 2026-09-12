@@ -1,9 +1,42 @@
-# OctoTask Documentation
+# OctoTask Core — Documentation
 
-__The OctoTask docs have moved to: [developer.khulnasoft.com](https://developer.khulnasoft.com/)__
+## Overview
 
-Here are a few topics we cover:
+This repository contains the core packages for OctoTask, a browser-based development environment.
 
-- [What is OctoTask?](https://developer.khulnasoft.com/guides/user-guide/what-is-octotask)
-- [How to embed OctoTask projects](https://developer.khulnasoft.com/guides/integration/embedding)
-- [Using our JavaScript SDK](https://developer.khulnasoft.com/platform/api/javascript-sdk)
+## Packages
+
+| Package | Description |
+|---|---|
+| `@octotask/sdk` | Browser SDK for embedding OctoTask projects |
+| `@octotask/resolver` | NPM dependency resolver with graph-based resolution |
+| `@octotask/cdn` | CDN proxy for fetching packages from jsDelivr |
+| `@octotask/registry-sync` | Real-time NPM registry sync to Redis |
+| `hyperdeploy` | Firebase Cloud Functions deployment tool |
+
+## Getting Started
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run tests
+pnpm test
+
+# Start dev mode
+pnpm dev
+```
+
+## Architecture
+
+See [ARCHITECTURE.md](../ARCHITECTURE.md) for the full dependency graph and package overview.
+
+## Development
+
+- All TypeScript packages share `tsconfig.base.json`
+- ESLint and Prettier configs are managed at the root
+- CI/CD uses `turbo` for parallel task execution
+- Dependencies are managed via pnpm workspaces

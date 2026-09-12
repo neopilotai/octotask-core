@@ -1,0 +1,27 @@
+{
+  "name": "@octotask/registry-client",
+  "version": "1.0.0",
+  "description": "Shared NPM registry client utilities for OctoTask packages.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "npm-package-arg": "^8.1.0",
+    "superagent": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/npm-package-arg": "^6.1.4",
+    "@types/superagent": "^8.1.11",
+    "@types/glob": "^9.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

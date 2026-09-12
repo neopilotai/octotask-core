@@ -111,7 +111,7 @@ async function executeDeployment(config: DeployConfig): Promise<DeploymentResult
       project: config.project
     };
 
-    deploymentLogger('info', 'Firebase deployment completed successfully', result);
+    deploymentLogger('info', 'Firebase deployment completed successfully', result as unknown as Record<string, unknown>);
     return result;
   } catch (error) {
     const duration = Date.now() - startTime;

@@ -1,2 +1,38 @@
 node_modules
+dist
+temp
+bundles
+types
+build
+.env
+.env.local
+*.log
 .DS_Store
+coverage
+.turbo
+*.tsbuildinfo
+.pnp
+.pnp.js
+
+# pnpm
+**/pnpm-lock.yaml
+!pnpm-lock.yaml
+**/package-lock.json
+!package.json
+**/pnpm-debug.log*
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Test
+*.test.ts
+*.spec.ts
+__tests__
+test-results
+playwright-report

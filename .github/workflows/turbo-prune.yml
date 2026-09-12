@@ -1,0 +1,42 @@
+name: Turbo Prune
+
+on:
+  pull_request:
+    branches: [master, main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prune:
+    name: Prune & Build Changed Package
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.prune.outputs.should_build }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Prune changed package
+        id: prune
+        run: |
+          CHANGED=$(pnpm turbo prune --since=origin/main --out=./pruned 2>/dev/null || echo "")
+          if [ -n "$CHANGED" ]; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+            cd ./pruned
+            pnpm install --frozen-lockfile
+            pnpm turbo run build
+            pnpm turbo run test
+          else
+            echo "should_build=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          fi

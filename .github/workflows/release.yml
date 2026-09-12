@@ -22,11 +22,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'npm'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Generate release notes
         id: notes
@@ -34,8 +42,7 @@ jobs:
           TAG="${{ github.ref }}"
           TAG=${TAG#refs/tags/}
           echo "version=${TAG}" >> $GITHUB_OUTPUT
-          
-          # Extract changelog entries
+
           if [ -f "CHANGELOG.md" ]; then
             sed -n "/## $TAG/,/## [v0-9]/p" CHANGELOG.md | head -n -1 > RELEASE_NOTES.md
           else

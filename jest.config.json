@@ -3,9 +3,9 @@
     "testEnvironment": "node",
     "roots": [
         "<rootDir>/hyperdeploy/src",
-        "<rootDir>/cdn",
-        "<rootDir>/resolver",
-        "<rootDir>/registry-sync"
+        "<rootDir>/cdn/src",
+        "<rootDir>/resolver/src",
+        "<rootDir>/registry-sync/src"
     ],
     "testMatch": [
         "**/__tests__/**/*.ts",

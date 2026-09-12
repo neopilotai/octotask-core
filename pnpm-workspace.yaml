@@ -1,0 +1,7 @@
+packages:
+  - 'sdk'
+  - 'hyperdeploy'
+  - 'cdn'
+  - 'resolver'
+  - 'registry-sync'
+  - 'packages/registry-client'

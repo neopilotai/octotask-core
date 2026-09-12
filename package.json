@@ -1,18 +1,41 @@
 {
-    "name": "@octotask/core-tests",
-    "version": "1.0.0",
-    "description": "Test suite for OctoTask Core",
-    "scripts": {
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage",
-        "test:hyperdeploy": "jest hyperdeploy",
-        "test:registry-sync": "jest registry-sync"
-    },
-    "devDependencies": {
-        "@types/jest": "^29.5.0",
-        "jest": "^29.5.0",
-        "ts-jest": "^29.1.0",
-        "typescript": "^5.0.0"
-    }
+  "name": "@octotask/monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OctoTask Core monorepo",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:check": "eslint .",
+    "test:unit": "turbo run test:unit",
+    "test:e2e": "turbo run test:e2e"
+  },
+  "devDependencies": {
+    "@types/glob": "^9.0.0",
+    "@types/jest": "^29.5.0",
+    "@types/lodash": "^4.14.192",
+    "@types/npm-package-arg": "^6.1.4",
+    "@types/superagent": "^8.1.11",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.5.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "ts-jest": "^29.1.0",
+    "turbo": "^1.12.0",
+    "typescript": "^5.3.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
 }

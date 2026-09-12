@@ -12,44 +12,34 @@ concurrency:
 
 jobs:
   build:
-    name: Build & Test
+    name: Build All Packages
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - name: Install dependencies (root)
-        run: npm install --prefer-offline --no-audit
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies (hyperdeploy)
-        working-directory: hyperdeploy
-        run: npm install --prefer-offline --no-audit
-
-      - name: Build hyperdeploy
-        working-directory: hyperdeploy
-        run: npm run build
-
-      - name: Install dependencies (cdn)
-        working-directory: cdn
-        run: npm install --prefer-offline --no-audit
-
-      - name: Install dependencies (resolver)
-        working-directory: resolver
-        run: npm install --prefer-offline --no-audit
-
-      - name: Install dependencies (registry-sync)
-        working-directory: registry-sync
-        run: npm install --prefer-offline --no-audit
+      - name: Build all packages
+        run: pnpm turbo run build
 
       - name: Generate artifacts summary
         if: always()

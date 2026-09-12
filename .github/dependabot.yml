@@ -1,7 +1,6 @@
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
+  - package-ecosystem: "pnpm"
     directory: "/"
     schedule:
       interval: "weekly"
@@ -24,99 +23,6 @@ updates:
     pull-request-branch-name:
       separator: "/"
 
-  # Enable version updates for hyperdeploy
-  - package-ecosystem: "npm"
-    directory: "/hyperdeploy"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:15"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "octotask/maintainers"
-    labels:
-      - "dependencies"
-      - "Status: Triage"
-    commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
-    allow:
-      - dependency-type: "production"
-      - dependency-type: "development"
-    pull-request-branch-name:
-      separator: "/"
-
-  # Enable version updates for cdn
-  - package-ecosystem: "npm"
-    directory: "/cdn"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:30"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "octotask/maintainers"
-    labels:
-      - "dependencies"
-      - "Status: Triage"
-    commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
-    allow:
-      - dependency-type: "production"
-      - dependency-type: "development"
-    pull-request-branch-name:
-      separator: "/"
-
-  # Enable version updates for resolver
-  - package-ecosystem: "npm"
-    directory: "/resolver"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:45"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "octotask/maintainers"
-    labels:
-      - "dependencies"
-      - "Status: Triage"
-    commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
-    allow:
-      - dependency-type: "production"
-      - dependency-type: "development"
-    pull-request-branch-name:
-      separator: "/"
-
-  # Enable version updates for registry-sync
-  - package-ecosystem: "npm"
-    directory: "/registry-sync"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "octotask/maintainers"
-    labels:
-      - "dependencies"
-      - "Status: Triage"
-    commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
-    allow:
-      - dependency-type: "production"
-      - dependency-type: "development"
-    pull-request-branch-name:
-      separator: "/"
-
-  # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

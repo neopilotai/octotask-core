@@ -63,8 +63,7 @@ services:
   dev:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: development
+      dockerfile: Dockerfile.dev
     container_name: octotask-dev
     ports:
       - "3000:3000"
@@ -72,6 +71,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/sdk/node_modules
       - /app/hyperdeploy/node_modules
       - /app/cdn/node_modules
       - /app/resolver/node_modules
@@ -83,7 +83,7 @@ services:
       - redis
     networks:
       - octotask
-    command: npm run dev
+    command: pnpm run dev
 
 volumes:
   redis_data:

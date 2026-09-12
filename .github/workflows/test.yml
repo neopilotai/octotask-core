@@ -19,29 +19,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit
-
-      - name: Install package dependencies
-        run: |
-          cd hyperdeploy && npm install --prefer-offline --no-audit && cd ..
-          cd cdn && npm install --prefer-offline --no-audit && cd ..
-          cd resolver && npm install --prefer-offline --no-audit && cd ..
-          cd registry-sync && npm install --prefer-offline --no-audit && cd ..
+        run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: npm run test 2>/dev/null || echo "Tests not yet configured"
-        continue-on-error: true
-
-      - name: Check coverage
-        run: npm run test:coverage 2>/dev/null || echo "Coverage not yet configured"
-        continue-on-error: true
+        run: pnpm turbo run test --filter=!@octotask/sdk
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

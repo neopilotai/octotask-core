@@ -19,4 +19,6 @@ coverage
 .turbo
 build/
 docs/
-sdk/
+*.tsbuildinfo
+**/tsconfig.tsbuildinfo
+packages/*/dist
