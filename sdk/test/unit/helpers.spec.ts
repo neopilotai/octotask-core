@@ -61,7 +61,9 @@ describe('genID', () => {
     const collisions: string[] = [];
     while (count > 0) {
       const item = generator();
-      if (generated[item]) collisions.push(item);
+      if (generated[item]) {
+        collisions.push(item);
+      }
       generated[item] = true;
       count--;
     }

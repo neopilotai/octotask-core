@@ -45,26 +45,32 @@ hyperdeploy — standalone (Firebase Tools, microbundle)
 ## Package Overview
 
 ### `@octotask/sdk`
+
 Browser-side SDK for embedding OctoTask projects. Uses Vite for building
 (CJS, ESM, UMD). TypeScript source in `src/`. Tests via Vitest + Playwright.
 
 ### `@octotask/resolver`
+
 Dependency graph resolver for NPM packages. Uses `graphlib` for topological
 sorting and `npm-package-arg` for parsing package specs. TypeScript source in `src/`.
 
 ### `@octotask/cdn`
+
 Express-based CDN proxy that fetches packages from jsDelivr and serves
 them with caching. Uses TypeScript AST parsing for import resolution.
 
 ### `@octotask/registry-sync`
+
 Real-time sync of NPM registry data from CouchDB (replicate.npmjs.com)
 into Redis. CLI tool with `dist/index.js` as entry point.
 
 ### `@octotask/registry-client`
+
 Shared NPM registry client utilities used by `resolver` and `cdn`.
 Provides `fetchPackageJson`, `batchFetchPackages`, `parsePackageSpec`.
 
 ### `hyperdeploy`
+
 Firebase Cloud Functions utility for deploying static sites. Uses
 microbundle for bundling.
 
@@ -101,6 +107,7 @@ pnpm turbo prune  # Prune workspace for CI
 ## TypeScript Configuration
 
 All packages use `tsconfig.base.json` as the base configuration:
+
 - Target: ES2020
 - Module: ESNext/CommonJS depending on package
 - Strict mode enabled

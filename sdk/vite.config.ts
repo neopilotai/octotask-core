@@ -36,8 +36,12 @@ function libConfig(): UserConfig {
         formats: ['cjs', 'es', 'umd'],
         fileName: (format) => {
           let suffix = '';
-          if (format === 'es') suffix = '.m';
-          if (format === 'umd') suffix = '.umd';
+          if (format === 'es') {
+            suffix = '.m';
+          }
+          if (format === 'umd') {
+            suffix = '.umd';
+          }
           return `sdk${suffix}.js`;
         },
       },

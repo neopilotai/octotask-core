@@ -36,9 +36,13 @@ interface DeploymentError {
   retryable: boolean;
 }
 
-type DeploymentLogger = (level: 'info' | 'warn' | 'error', message: string, meta?: Record<string, unknown>) => void;
+type DeploymentLogger = (
+  level: 'info' | 'warn' | 'error',
+  message: string,
+  meta?: Record<string, unknown>,
+) => void;
 
-let deploymentLogger: DeploymentLogger = () => { };
+let deploymentLogger: DeploymentLogger = () => {};
 
 /**
  * Set a custom logger for deployment events
@@ -61,35 +65,52 @@ function validateConfig(config: DeployConfig): void {
     throw createError('INVALID_PROJECT', 'Valid project ID is required', false);
   }
   if (!token || typeof token !== 'string') {
-    throw createError('INVALID_TOKEN', 'Valid authentication token is required', false);
+    throw createError(
+      'INVALID_TOKEN',
+      'Valid authentication token is required',
+      false,
+    );
   }
   if (!cwd || typeof cwd !== 'string') {
-    throw createError('INVALID_CWD', 'Valid working directory is required', false);
+    throw createError(
+      'INVALID_CWD',
+      'Valid working directory is required',
+      false,
+    );
   }
 }
 
 /**
  * Create a structured deployment error
  */
-function createError(code: string, message: string, retryable: boolean, originalError?: Error): DeploymentError {
+function createError(
+  code: string,
+  message: string,
+  retryable: boolean,
+  originalError?: Error,
+): DeploymentError {
   return {
     code,
     message,
     originalError,
     timestamp: new Date().toISOString(),
-    retryable
+    retryable,
   };
 }
 
 /**
  * Execute deployment with retry logic and error handling
  */
-async function executeDeployment(config: DeployConfig): Promise<DeploymentResult> {
+async function executeDeployment(
+  config: DeployConfig,
+): Promise<DeploymentResult> {
   const startTime = Date.now();
   const originalCwd = process.cwd();
 
   try {
-    deploymentLogger('info', 'Starting Firebase deployment', { project: config.project });
+    deploymentLogger('info', 'Starting Firebase deployment', {
+      project: config.project,
+    });
 
     /**
      * Programmatic deploys use source cwd by default.
@@ -100,7 +121,7 @@ async function executeDeployment(config: DeployConfig): Promise<DeploymentResult
     await deploy({
       project: config.project,
       token: config.token,
-      cwd: config.cwd
+      cwd: config.cwd,
     });
 
     const duration = Date.now() - startTime;
@@ -108,14 +129,19 @@ async function executeDeployment(config: DeployConfig): Promise<DeploymentResult
       success: true,
       duration,
       timestamp: new Date().toISOString(),
-      project: config.project
+      project: config.project,
     };
 
-    deploymentLogger('info', 'Firebase deployment completed successfully', result as unknown as Record<string, unknown>);
+    deploymentLogger(
+      'info',
+      'Firebase deployment completed successfully',
+      result as unknown as Record<string, unknown>,
+    );
     return result;
   } catch (error) {
     const duration = Date.now() - startTime;
-    const isRetryable = error instanceof Error &&
+    const isRetryable =
+      error instanceof Error &&
       (error.message.includes('timeout') ||
         error.message.includes('ECONNREFUSED') ||
         error.message.includes('network'));
@@ -124,10 +150,13 @@ async function executeDeployment(config: DeployConfig): Promise<DeploymentResult
       'DEPLOYMENT_FAILED',
       error instanceof Error ? error.message : 'Unknown deployment error',
       isRetryable,
-      error instanceof Error ? error : undefined
+      error instanceof Error ? error : undefined,
     );
 
-    deploymentLogger('error', 'Firebase deployment failed', { ...err, duration });
+    deploymentLogger('error', 'Firebase deployment failed', {
+      ...err,
+      duration,
+    });
     throw err;
   } finally {
     // Restore original working directory
@@ -137,15 +166,17 @@ async function executeDeployment(config: DeployConfig): Promise<DeploymentResult
 
 /**
  * Firebase deployments with retry mechanism
- * 
+ *
  * Tokens can be generated from oAuth or hard coded from `firebase login:ci`.
  * Files in the specified cwd are read & deployed.
- * 
+ *
  * @param config - Deployment configuration
  * @returns Deployment result with metadata
  * @throws {DeploymentError} If deployment fails
  */
-export async function firebaseDeploy(config: DeployConfig): Promise<DeploymentResult> {
+export async function firebaseDeploy(
+  config: DeployConfig,
+): Promise<DeploymentResult> {
   validateConfig(config);
 
   const maxRetries = config.retries ?? 3;
@@ -155,8 +186,12 @@ export async function firebaseDeploy(config: DeployConfig): Promise<DeploymentRe
     try {
       if (attempt > 1) {
         const backoffMs = Math.min(1000 * Math.pow(2, attempt - 2), 30000);
-        deploymentLogger('info', `Retrying deployment (attempt ${attempt}/${maxRetries})`, { backoffMs });
-        await new Promise(resolve => setTimeout(resolve, backoffMs));
+        deploymentLogger(
+          'info',
+          `Retrying deployment (attempt ${attempt}/${maxRetries})`,
+          { backoffMs },
+        );
+        await new Promise((resolve) => setTimeout(resolve, backoffMs));
       }
 
       return await executeDeployment(config);
@@ -164,7 +199,11 @@ export async function firebaseDeploy(config: DeployConfig): Promise<DeploymentRe
       lastError = error as DeploymentError;
 
       if (!lastError.retryable || attempt === maxRetries) {
-        deploymentLogger('error', `Deployment failed after ${attempt} attempt(s)`, { error: lastError });
+        deploymentLogger(
+          'error',
+          `Deployment failed after ${attempt} attempt(s)`,
+          { error: lastError },
+        );
         throw lastError;
       }
     }

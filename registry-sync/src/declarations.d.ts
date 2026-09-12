@@ -1,7 +1,7 @@
 declare module 'concurrent-couch-follower' {
   export default function follower(
     callback: (change: any, done: () => void) => void,
-    options?: Record<string, any>
+    options?: Record<string, any>,
   ): void;
 }
 

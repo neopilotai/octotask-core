@@ -1,37 +1,37 @@
 {
-    "compilerOptions": {
-        "target": "ES2020",
-        "module": "ESNext",
-        "lib": ["ES2020"],
-        "declaration": true,
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "moduleResolution": "node",
-        "rootDir": ".",
-        "baseUrl": ".",
-        "paths": {
-            "@octotask/*": ["./*", "./packages/*"]
-        }
-    },
-    "include": [
-        "hyperdeploy/src",
-        "cdn/src",
-        "resolver/src",
-        "registry-sync/src",
-        "sdk/src",
-        "packages",
-        ".github"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "build",
-        "docs",
-        "sdk/bundles",
-        "sdk/temp",
-        "packages/*/node_modules"
-    ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020"],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@octotask/*": ["./*", "./packages/*"]
+    }
+  },
+  "include": [
+    "hyperdeploy/src",
+    "cdn/src",
+    "resolver/src",
+    "registry-sync/src",
+    "sdk/src",
+    "packages",
+    ".github"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "docs",
+    "sdk/bundles",
+    "sdk/temp",
+    "packages/*/node_modules"
+  ]
 }

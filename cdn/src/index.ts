@@ -30,16 +30,32 @@ function turboHandler(req: any, res: any, next: () => void): void {
 
   Promise.all([fetchDirList(packageSlug), pkgJsonPromise])
     .then(([fileList, packageJson]) => {
-      const entryPoint = (packageJson as Record<string, any>).main || 'index.js';
-      const typesEntry = (packageJson as Record<string, any>).types || (packageJson as Record<string, any>).typings || 'index.d.ts';
+      const entryPoint =
+        (packageJson as Record<string, any>).main || 'index.js';
+      const typesEntry =
+        (packageJson as Record<string, any>).types ||
+        (packageJson as Record<string, any>).typings ||
+        'index.d.ts';
 
       return Promise.all([
-        fetchChildDependencies(`${JSDELIVR_URL}/${packageSlug}`, normalizePath(entryPoint), fileList.concat(), vendorFiles),
-        fetchChildDefinitions(`${JSDELIVR_URL}/${packageSlug}`, normalizePath(typesEntry), fileList.concat(), vendorFiles),
+        fetchChildDependencies(
+          `${JSDELIVR_URL}/${packageSlug}`,
+          normalizePath(entryPoint),
+          fileList.concat(),
+          vendorFiles,
+        ),
+        fetchChildDefinitions(
+          `${JSDELIVR_URL}/${packageSlug}`,
+          normalizePath(typesEntry),
+          fileList.concat(),
+          vendorFiles,
+        ),
       ]).then(() => {
         res.setHeader('Cache-Control', 'public, max-age=31557600, immutable');
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.send(stringify({ vendorFiles, dirCache: { [packageSlug]: fileList } }));
+        res.send(
+          stringify({ vendorFiles, dirCache: { [packageSlug]: fileList } }),
+        );
       });
     })
     .catch((error: any) => {

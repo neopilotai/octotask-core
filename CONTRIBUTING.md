@@ -9,6 +9,7 @@ Be respectful, inclusive, and professional. We're committed to providing a welco
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18.x or higher
 - npm 9.x or higher
 - Docker (optional, for containerized development)
@@ -37,6 +38,7 @@ docker-compose up -d dev
 ### Development Workflow
 
 1. **Create a feature branch**
+
    ```bash
    git checkout -b feat/your-feature-name
    # or for bug fixes
@@ -49,6 +51,7 @@ docker-compose up -d dev
    - Update documentation as needed
 
 3. **Run tests and linting**
+
    ```bash
    npm run test              # Run all tests
    npm run test:coverage     # Check coverage
@@ -57,6 +60,7 @@ docker-compose up -d dev
    ```
 
 4. **Commit your changes**
+
    ```bash
    git commit -m "type(scope): description"
    # Examples:
@@ -85,6 +89,7 @@ footer (optional)
 ```
 
 ### Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -96,6 +101,7 @@ footer (optional)
 - `style`: Code style (formatting)
 
 ### Scopes
+
 - `hyperdeploy`: Firebase deployment module
 - `registry-sync`: NPM registry synchronization
 - `cdn`: CDN package fetcher
@@ -105,6 +111,7 @@ footer (optional)
 - `docs`: Documentation
 
 ### Examples
+
 ```bash
 git commit -m "feat(hyperdeploy): add deployment rollback"
 git commit -m "fix(registry-sync): handle Redis connection errors"
@@ -115,24 +122,28 @@ git commit -m "test(hyperdeploy): add retry mechanism tests"
 ## Code Standards
 
 ### TypeScript
+
 - Use strict mode (`"strict": true`)
 - Add proper type annotations
 - Avoid `any` type
 - Use interfaces for complex objects
 
 ### Testing
+
 - Minimum 80% code coverage required
 - Write unit tests for all functions
 - Write integration tests for critical flows
 - Use descriptive test names
 
 ### Documentation
+
 - Add JSDoc comments to exported functions
 - Include parameter descriptions and return types
 - Add examples for public APIs
 - Update README for new features
 
 ### Code Quality
+
 - Use ESLint for linting
 - Use Prettier for formatting
 - Follow existing code style
@@ -142,6 +153,7 @@ git commit -m "test(hyperdeploy): add retry mechanism tests"
 ## Testing
 
 ### Running Tests
+
 ```bash
 # Run all tests
 npm run test
@@ -158,24 +170,25 @@ npm run test:registry-sync
 ```
 
 ### Writing Tests
+
 ```typescript
 // hyperdeploy/__tests__/index.test.ts
 import { firebaseDeploy } from '../src/index';
 
 describe('firebaseDeploy', () => {
   it('should throw error for invalid config', async () => {
-    await expect(firebaseDeploy({} as any))
-      .rejects
-      .toThrow('Valid project ID is required');
+    await expect(firebaseDeploy({} as any)).rejects.toThrow(
+      'Valid project ID is required',
+    );
   });
 
   it('should deploy successfully with valid config', async () => {
     const result = await firebaseDeploy({
       project: 'test-project',
       token: 'test-token',
-      cwd: '/tmp'
+      cwd: '/tmp',
     });
-    
+
     expect(result.success).toBe(true);
   });
 });
@@ -202,7 +215,9 @@ describe('firebaseDeploy', () => {
 ## Issue Guidelines
 
 ### Reporting Bugs
+
 Include:
+
 - Clear description of the bug
 - Steps to reproduce
 - Expected vs actual behavior
@@ -210,7 +225,9 @@ Include:
 - Screenshots if applicable
 
 ### Suggesting Features
+
 Include:
+
 - Clear description of the feature
 - Motivation and use cases
 - Possible implementation approach
@@ -226,6 +243,7 @@ Include:
 ## Release Process
 
 Releases follow [Semantic Versioning](https://semver.org/):
+
 - `MAJOR.MINOR.PATCH`
 - Tags format: `v1.0.0` or `package-v1.0.0`
 

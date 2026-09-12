@@ -19,5 +19,7 @@
     "rimraf": "^5.0.0",
     "typescript": "^5.3.0"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

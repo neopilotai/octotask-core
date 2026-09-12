@@ -6,7 +6,8 @@ export default function parseImports(contents: string): string[] {
   function findChildImports(node: ts.Node): void {
     if (
       node.kind === ts.SyntaxKind.ImportDeclaration ||
-      (node.kind === ts.SyntaxKind.ExportDeclaration && (node as ts.ExportDeclaration).moduleSpecifier)
+      (node.kind === ts.SyntaxKind.ExportDeclaration &&
+        (node as ts.ExportDeclaration).moduleSpecifier)
     ) {
       paths.push((node as any).moduleSpecifier.text);
     } else if (
@@ -15,7 +16,10 @@ export default function parseImports(contents: string): string[] {
       (node as ts.CallExpression).arguments.length
     ) {
       const callExpr = node as ts.CallExpression;
-      if (callExpr.expression.kind === ts.SyntaxKind.Identifier && (callExpr.expression as ts.Identifier).text === 'require') {
+      if (
+        callExpr.expression.kind === ts.SyntaxKind.Identifier &&
+        (callExpr.expression as ts.Identifier).text === 'require'
+      ) {
         const arg = callExpr.arguments[0];
         if (arg.kind === ts.SyntaxKind.StringLiteral) {
           paths.push((arg as ts.StringLiteral).text);
@@ -55,8 +59,14 @@ export default function parseImports(contents: string): string[] {
   }
 
   ts.forEachChild(
-    ts.createSourceFile('any', contents, ts.ScriptTarget.ES2015, true, ts.ScriptKind.JSX),
-    findChildImports
+    ts.createSourceFile(
+      'any',
+      contents,
+      ts.ScriptTarget.ES2015,
+      true,
+      ts.ScriptKind.JSX,
+    ),
+    findChildImports,
   );
 
   return paths;

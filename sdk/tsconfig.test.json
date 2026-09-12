@@ -5,20 +5,10 @@
     "tsBuildInfoFile": "./temp/tsbuildinfo",
     "paths": {
       // Use local sources when demo and test pages import @octotask/sdk
-      "@octotask/sdk": [
-        "./src/index.ts"
-      ],
-      "$src/*": [
-        "./src/*"
-      ],
-      "$test/*": [
-        "./test/*"
-      ]
+      "@octotask/sdk": ["./src/index.ts"],
+      "$src/*": ["./src/*"],
+      "$test/*": ["./test/*"]
     }
   },
-  "include": [
-    "./examples",
-    "./src",
-    "./test"
-  ]
+  "include": ["./examples", "./src", "./test"]
 }

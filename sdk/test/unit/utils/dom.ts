@@ -12,7 +12,9 @@ export function h(name: string, attrs: Record<string, string> = {}) {
 export function formValue(form: HTMLFormElement, name: string): string | undefined {
   const inputs = form.querySelectorAll<HTMLInputElement>('[name]');
   for (const input of inputs) {
-    if (input.name === name) return input.value;
+    if (input.name === name) {
+      return input.value;
+    }
   }
 }
 

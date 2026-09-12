@@ -1,7 +1,8 @@
 import npa from 'npm-package-arg';
 import request from 'superagent';
 
-export const DEFAULT_REGISTRY_URL = (process.env.NPM_REGISTRY_URL ?? '') || 'https://registry.npmjs.org';
+export const DEFAULT_REGISTRY_URL =
+  (process.env.NPM_REGISTRY_URL ?? '') || 'https://registry.npmjs.org';
 
 export interface RegistryPackage {
   name: string;
@@ -32,15 +33,17 @@ export function escapeName(name: string): string {
 
 export function fetchPackageJson(
   name: string,
-  registryUrl: string = DEFAULT_REGISTRY_URL
+  registryUrl: string = DEFAULT_REGISTRY_URL,
 ): Promise<RegistryPackage> {
   const escapedName = escapeName(name);
-  return request.get(`${registryUrl}/${escapedName}`).then(res => res.body as RegistryPackage);
+  return request
+    .get(`${registryUrl}/${escapedName}`)
+    .then((res) => res.body as RegistryPackage);
 }
 
 export function fetchPackageJsonSafe(
   name: string,
-  registryUrl: string = DEFAULT_REGISTRY_URL
+  registryUrl: string = DEFAULT_REGISTRY_URL,
 ): Promise<RegistryPackage | null> {
   const escapedName = escapeName(name);
   return request
@@ -52,21 +55,26 @@ export function fetchPackageJsonSafe(
 export function batchFetchPackages(
   names: string[],
   registryUrl: string = DEFAULT_REGISTRY_URL,
-  cache: Record<string, RegistryPackage> = {}
+  cache: Record<string, RegistryPackage> = {},
 ): Promise<void> {
-  const fetchKeys = names.filter(key => !cache.hasOwnProperty(key));
-  if (fetchKeys.length === 0) return Promise.resolve();
+  const fetchKeys = names.filter((key) => !cache.hasOwnProperty(key));
+  if (fetchKeys.length === 0) {
+    return Promise.resolve();
+  }
 
   return Promise.all(
-    fetchKeys.map(name =>
-      fetchPackageJson(name, registryUrl).then(pkg => {
+    fetchKeys.map((name) =>
+      fetchPackageJson(name, registryUrl).then((pkg) => {
         cache[name] = pkg;
-      })
-    )
+      }),
+    ),
   ).then(() => {});
 }
 
-export function parsePackageSpec(spec: string): { name: string; range: string } {
+export function parsePackageSpec(spec: string): {
+  name: string;
+  range: string;
+} {
   const parsed = npa(spec);
   return { name: parsed.name || spec, range: parsed.raw || '' };
 }

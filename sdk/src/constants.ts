@@ -16,7 +16,7 @@ export const DEFAULT_FRAME_HEIGHT = 300;
 // Local declaration to satisfy TypeScript.
 // Usage of this variable will be replaced at build time,
 // and should not appear in the built bundles and .d.ts files
-declare var __OCTOTASK_SERVER_ORIGIN__: string | undefined;
+declare let __OCTOTASK_SERVER_ORIGIN__: string | undefined;
 
 /**
  * Origin of the OctoTask instance

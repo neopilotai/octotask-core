@@ -8,7 +8,7 @@ declare module 'firebase-tools' {
   }
 
   export function deploy(options: DeployOptions): Promise<void>;
-  
+
   // Add other firebase-tools exports as needed
   const firebaseTools: {
     deploy: typeof deploy;

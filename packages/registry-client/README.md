@@ -5,7 +5,11 @@ Shared NPM registry client utilities for OctoTask packages.
 ## Usage
 
 ```typescript
-import { fetchPackageJson, batchFetchPackages, parsePackageSpec } from '@octotask/registry-client';
+import {
+  fetchPackageJson,
+  batchFetchPackages,
+  parsePackageSpec,
+} from '@octotask/registry-client';
 ```
 
 ## Exports

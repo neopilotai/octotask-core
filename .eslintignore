@@ -1,0 +1,8 @@
+dist/
+node_modules/
+build/
+docs/
+sdk/bundles/
+sdk/examples/
+sdk/temp/
+*.js

@@ -1,40 +1,40 @@
 version: 2
 updates:
-  - package-ecosystem: "pnpm"
-    directory: "/"
+  - package-ecosystem: 'pnpm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '03:00'
     open-pull-requests-limit: 10
     reviewers:
-      - "octotask/maintainers"
+      - 'octotask/maintainers'
     labels:
-      - "dependencies"
-      - "Status: Triage"
+      - 'dependencies'
+      - 'Status: Triage'
     commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+      include: 'scope'
     allow:
-      - dependency-type: "production"
-      - dependency-type: "development"
+      - dependency-type: 'production'
+      - dependency-type: 'development'
     ignore: []
     pull-request-branch-name:
-      separator: "/"
+      separator: '/'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "05:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '05:00'
     open-pull-requests-limit: 5
     reviewers:
-      - "octotask/maintainers"
+      - 'octotask/maintainers'
     labels:
-      - "dependencies"
-      - "Status: Triage"
+      - 'dependencies'
+      - 'Status: Triage'
     commit-message:
-      prefix: "chore(ci)"
-      include: "scope"
+      prefix: 'chore(ci)'
+      include: 'scope'

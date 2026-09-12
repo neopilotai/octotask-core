@@ -34,6 +34,7 @@ docker-compose logs -f hyperdeploy
 ## Docker Images
 
 ### Hyperdeploy
+
 Multi-stage optimized image for Firebase deployments from Cloud Functions.
 
 ```bash
@@ -48,6 +49,7 @@ docker-compose up -d hyperdeploy
 ```
 
 ### Registry Sync
+
 Synchronizes NPM data in real-time from NPM Replicate into Redis.
 
 ```bash
@@ -62,6 +64,7 @@ docker-compose up -d registry-sync redis
 ```
 
 ### Development
+
 Includes all dependencies with hot-reload support.
 
 ```bash
@@ -78,34 +81,40 @@ docker-compose up -d dev
 ## Environment Variables
 
 ### Registry Sync
+
 - `REDIS_URL`: Redis connection URL (default: `redis://redis:6379`)
 - `NODE_ENV`: Set to `production` for production deployments
 
 ### Hyperdeploy
+
 - `NODE_ENV`: Set to `production` for production deployments
 - `REDIS_URL`: Optional Redis URL for caching
 
 ## Docker Compose Services
 
 ### redis
+
 - **Image**: `redis:7-alpine`
 - **Port**: `6379`
 - **Volume**: `redis_data` (persistent)
 - **Health Check**: Built-in redis-cli ping
 
 ### registry-sync
+
 - **Depends on**: `redis`
 - **Environment**: Uses `REDIS_URL`
 - **Restart Policy**: Unless stopped
 - **Logging**: JSON file driver with 10MB rotation
 
 ### hyperdeploy
+
 - **Ports**: `8080`
 - **Depends on**: `redis`
 - **Restart Policy**: Unless stopped
 - **Logging**: JSON file driver with 10MB rotation
 
 ### dev
+
 - **Ports**: `3000`, `8080`
 - **Volumes**: Full source directory with node_modules exclusions
 - **Command**: `npm run dev`
@@ -120,6 +129,7 @@ docker-compose up -d dev
 ## Container Registry
 
 Images are automatically built and pushed to GitHub Container Registry (GHCR) on:
+
 - Push to `master` or `main` branch
 - Tagged releases (`v*`, `docker-*`)
 
@@ -133,6 +143,7 @@ docker pull ghcr.io/octotask/core-registry-sync:latest
 ## Troubleshooting
 
 ### Services won't start
+
 ```bash
 # Check logs
 docker-compose logs
@@ -145,6 +156,7 @@ docker-compose build --no-cache
 ```
 
 ### Redis connection issues
+
 ```bash
 # Check Redis health
 docker-compose exec redis redis-cli ping
@@ -154,6 +166,7 @@ docker-compose logs redis
 ```
 
 ### Volume mount issues (Windows/Mac)
+
 ```bash
 # Ensure Docker Desktop has adequate resources
 # Increase CPU and memory in Docker Desktop settings
@@ -180,6 +193,7 @@ docker volume inspect octotask_app_data
 ## CI/CD Integration
 
 Docker images are automatically built and tested on:
+
 - Every PR
 - Every push to master/main
 - Tagged releases

@@ -14,12 +14,18 @@ export interface PackageURLRequest {
   filename?: string;
 }
 
-export default function packageURL(req: PackageURLRequest, res: any, next: () => void): void {
+export default function packageURL(
+  req: PackageURLRequest,
+  res: any,
+  next: () => void,
+): void {
   const parsed = url.parse(req.url, true);
   const pathname = parsed.pathname || '';
   const search = parsed.search || '';
   const query: Record<string, string> = Object.fromEntries(
-    Object.entries(parsed.query as Record<string, string | string[]>).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
+    Object.entries(parsed.query as Record<string, string | string[]>).map(
+      ([k, v]) => [k, Array.isArray(v) ? v[0] : v],
+    ),
   );
 
   const match = URLFormat.exec(pathname);
@@ -34,7 +40,10 @@ export default function packageURL(req: PackageURLRequest, res: any, next: () =>
   const errors = validateNPMPackageName(packageName).errors;
 
   if (errors) {
-    return res.status(400).type('text').send(`Invalid package name: ${packageName} (${errors.join(', ')})`);
+    return res
+      .status(400)
+      .type('text')
+      .send(`Invalid package name: ${packageName} (${errors.join(', ')})`);
   }
 
   req.packageName = packageName;

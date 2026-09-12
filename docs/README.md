@@ -6,13 +6,13 @@ This repository contains the core packages for OctoTask, a browser-based develop
 
 ## Packages
 
-| Package | Description |
-|---|---|
-| `@octotask/sdk` | Browser SDK for embedding OctoTask projects |
-| `@octotask/resolver` | NPM dependency resolver with graph-based resolution |
-| `@octotask/cdn` | CDN proxy for fetching packages from jsDelivr |
-| `@octotask/registry-sync` | Real-time NPM registry sync to Redis |
-| `hyperdeploy` | Firebase Cloud Functions deployment tool |
+| Package                   | Description                                         |
+| ------------------------- | --------------------------------------------------- |
+| `@octotask/sdk`           | Browser SDK for embedding OctoTask projects         |
+| `@octotask/resolver`      | NPM dependency resolver with graph-based resolution |
+| `@octotask/cdn`           | CDN proxy for fetching packages from jsDelivr       |
+| `@octotask/registry-sync` | Real-time NPM registry sync to Redis                |
+| `hyperdeploy`             | Firebase Cloud Functions deployment tool            |
 
 ## Getting Started
 

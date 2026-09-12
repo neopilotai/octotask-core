@@ -23,7 +23,7 @@ jobs:
           script: |
             const { context } = require('@actions/github');
             const pr = context.payload.pull_request;
-            
+
             if (!pr.labels.some(l => l.name.startsWith('Type:'))) {
               github.rest.issues.addLabels({
                 owner: context.repo.owner,
@@ -45,7 +45,7 @@ jobs:
           script: |
             const { context } = require('@actions/github');
             const issue = context.payload.issue;
-            
+
             if (issue.labels.length === 0) {
               github.rest.issues.addLabels({
                 owner: context.repo.owner,

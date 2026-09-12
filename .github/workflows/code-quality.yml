@@ -14,7 +14,7 @@ jobs:
   security:
     name: Security Audit
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,7 +23,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24.x'
-          
 
       - name: Run npm audit
         run: npm audit --audit-level=moderate
@@ -32,7 +31,7 @@ jobs:
   dependencies:
     name: Dependency Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

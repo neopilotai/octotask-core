@@ -22,7 +22,9 @@ describe('openProject', () => {
     // Spy on openProject doing DOM mutations
     let form: HTMLFormElement;
     const observerCb = vi.fn(([record]: MutationRecord[]) => {
-      if (!record || form) return;
+      if (!record || form) {
+        return;
+      }
       record.addedNodes.forEach((node) => {
         if (node instanceof HTMLFormElement) {
           form = node;

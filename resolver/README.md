@@ -15,39 +15,42 @@ registry with CORS enabled.
 ```javascript
 import { Resolver, NpmHttpRegistry } from '@octotask/resolver';
 
-function resolve(dependencies){
+function resolve(dependencies) {
   // const resolver = new Resolver(); // For server-side usage, uses https://registry.npmjs.org which doesn't have CORS enabled
 
   const resolver = new Resolver({
-    registry: new NpmHttpRegistry({ registryUrl: 'https://registry.npmjs.cf/' })
+    registry: new NpmHttpRegistry({
+      registryUrl: 'https://registry.npmjs.cf/',
+    }),
   });
 
   return resolver.resolve(dependencies);
 }
 
 resolve({
-  "rxjs": "~5.5.0",
-  "left-pad": "*",
-  "zone.js": "latest",
-  "@angular/core": "~5.2.0"
-}).then(results => console.log(results))
+  rxjs: '~5.5.0',
+  'left-pad': '*',
+  'zone.js': 'latest',
+  '@angular/core': '~5.2.0',
+}).then((results) => console.log(results));
 ```
 
 Possible options:
-- `registry` - An object that implements `fetch` and `batchFetch` that can
-return NPM registry data. A custom registry source can be provided to read from
-your own database or private NPM registry.
-- `validatePeers` - boolean - turns on/off `peerDependencies` validation,
-defaults to `true`.
-- `packageJsonProps` - `string[]` - list of properties to retain from
-`package.json` for resolved versions.
-- `timeout` - number - Number of milliseconds to attempt resolution before
-timing out.
-- `concurrency` - number - Maximum number of concurrent registry operations,
-default value `4`.
 
+- `registry` - An object that implements `fetch` and `batchFetch` that can
+  return NPM registry data. A custom registry source can be provided to read from
+  your own database or private NPM registry.
+- `validatePeers` - boolean - turns on/off `peerDependencies` validation,
+  defaults to `true`.
+- `packageJsonProps` - `string[]` - list of properties to retain from
+  `package.json` for resolved versions.
+- `timeout` - number - Number of milliseconds to attempt resolution before
+  timing out.
+- `concurrency` - number - Maximum number of concurrent registry operations,
+  default value `4`.
 
 Example dependencies payload:
+
 ```json
 `{
   "rxjs": "~5.5.0",
@@ -58,6 +61,7 @@ Example dependencies payload:
 ```
 
 Resulting output:
+
 ```json
 {
   "appDependencies": {
@@ -111,7 +115,6 @@ Resulting output:
 }
 ```
 
-
 `appDependencies` includes resolutions and mappings for top-level dependencies requested.
 
 `resDependencies` includes resolutions and mappings for sub-dependencies and their dependencies.
@@ -164,7 +167,7 @@ dependencies.
 Example request:
 
 ```json
-{"@angular/common": "5.2.6"}
+{ "@angular/common": "5.2.6" }
 ```
 
 A Peer dependency was missing from the top-level dependency. Includes which
@@ -173,15 +176,15 @@ peer, along with the semver range requested by the top-level dependency.
 
 ```json
 {
-    "error": "MISSING_PEERS",
-    "data": {
-        "rxjs": {
-            "@angular/common@5.2.6": "^5.5.0"
-        },
-        "@angular/core": {
-            "@angular/common@5.2.6": "5.2.6"
-        }
+  "error": "MISSING_PEERS",
+  "data": {
+    "rxjs": {
+      "@angular/common@5.2.6": "^5.5.0"
+    },
+    "@angular/core": {
+      "@angular/common@5.2.6": "5.2.6"
     }
+  }
 }
 ```
 
@@ -190,7 +193,7 @@ peer, along with the semver range requested by the top-level dependency.
 Example request:
 
 ```json
-{"mmnt": "2.20.1"}
+{ "mmnt": "2.20.1" }
 ```
 
 The request contains a package not found in the registry.
@@ -199,7 +202,7 @@ The request contains a package not found in the registry.
 {
   "error": "PACKAGE_NOT_FOUND",
   "data": {
-      "name": "mmnt"
+    "name": "mmnt"
   }
 }
 ```
@@ -209,7 +212,7 @@ The request contains a package not found in the registry.
 Example request:
 
 ```json
-{"moment": "~1337.0.0"}
+{ "moment": "~1337.0.0" }
 ```
 
 The request contains a valid package with an invalid range. Includes
@@ -219,8 +222,8 @@ which package was requested along with the improper range.
 {
   "error": "UNSATISFIED_RANGE",
   "data": {
-      "name": "moment",
-      "range": "~1337.0.0"
+    "name": "moment",
+    "range": "~1337.0.0"
   }
 }
 ```
@@ -228,6 +231,7 @@ which package was requested along with the improper range.
 ## Timeout
 
 The request has timed out:
+
 ```json
 { "error": "TIMEOUT" }
 ```
